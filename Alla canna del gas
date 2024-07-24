@@ -1,0 +1,64 @@
+import random
+import time
+
+def play_slot_machine(balance, bet):
+    slots = ["🍒", "💯", "🎰", "🪙", "🤑", "💵", "💰"]
+
+    balance -= bet
+
+    for i in range(10):
+        slot = [random.choice(slots) for _ in range(3)]
+        print("\r", slot, end="")
+        time.sleep(0.10)
+    print()
+
+    if slot.count("🤑") == 3:
+        outcome = "JACKPOT!!"
+        multiplier = 1000
+    elif slot.count("💯") == 3:
+        outcome = "💯 💯 💯"
+        multiplier = 500
+    elif len(set(slot)) == 1:
+        outcome = "Triple Match"
+        multiplier = 100
+    else:
+        outcome = "No Win"
+        multiplier = 0
+
+    winnings = bet * multiplier
+    balance += winnings
+
+    print(f"Result: {outcome}")
+    print(f"Bet: ${bet}, Multiplier: {multiplier}x")
+    print(f"Winnings: ${winnings}")
+    print(f"New Balance: ${balance}")
+
+    return balance
+
+def main():
+    balance = 100  
+
+    while True:
+        print(f"Balance: ${balance}")
+        bet = int(input("In tasca la fresca scotta, quanta te ne balli? "))
+        
+        if bet > balance:
+            print("Non hai abbastanza fresca.")
+            continue
+
+        input("Premi ENTER per far girare la slot!\n")
+        balance = play_slot_machine(balance, bet)
+
+        if balance <= 0:
+            print("Sei stirato, alla canna del gas!")
+            break
+
+        print()
+
+
+if __name__ == "__main__":
+    main()
+
+
+
+input("Premi ENTER per uscire e chiedere altri soldi alle banche... \n")
